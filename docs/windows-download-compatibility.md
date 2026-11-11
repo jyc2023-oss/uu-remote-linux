@@ -23,6 +23,8 @@
 
 本次实机验收覆盖上述版本的单文件下载。Windows 上传、目录下载、断点续传和其他客户端版本尚未纳入本次实机验收，不能据此推断全部兼容。
 
+另一路径是通过 [UU 端口映射使用 SSH / WinSCP](ssh-sftp-port-mapping.md)。该方案已单独验证 SSH 登录和 SFTP 双向文件传输，使用 SSH/SFTP 协议；其上传成功不代表 UU 内置文件工具的上传方向已验收。
+
 ### 获取修复
 
 本 fork 的 `main` 包含修复；上游 v0.2.57 发布包不包含此补丁。请按 [README 的构建说明](../README.md) 安装依赖，再从本仓库构建：
@@ -52,5 +54,7 @@ Source comments identify the official viewer functions and addresses supporting 
 On headless Ubuntu 24.04.4 LTS ARM64, `cargo test --release --locked -- --test-threads=1` passed with **365 passed, 0 failed, 11 ignored**, and the release host build succeeded. New regression tests cover path parsing, Unicode and spaces, compressed/inline listings, ordered multi-window transmission and reversed acknowledgements.
 
 The official Windows viewer 4.46.0.4716 successfully downloaded a 42-byte text file and a 1,048,576-byte binary file. Both downloaded SHA-256 digests matched their Linux sources. Windows uploads, directory downloads, resume behavior and other client versions were not part of this live acceptance.
+
+For local SSH clients and WinSCP, see the separately validated [UU port mapping + SSH/SFTP guide](ssh-sftp-port-mapping.md#english). Its successful SFTP uploads do not constitute acceptance of uploads in the built-in UU file-transfer tool.
 
 Build this fork's `main` using the commands above after installing the dependencies in [README.en.md](../README.en.md). The upstream v0.2.57 binaries do not contain this patch. Existing installation, login and service instructions still apply; retain the original executable when updating an installation.

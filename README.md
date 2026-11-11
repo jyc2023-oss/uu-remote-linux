@@ -10,6 +10,15 @@
 
 修复已包含在本仓库 `main`。上游 v0.2.57 预编译包不包含此补丁；请从本仓库源码构建。详见 [修复依据、验证范围与构建方法](docs/windows-download-compatibility.md)。
 
+我们还补充了 **[UU 端口映射 + SSH / WinSCP 使用指南](docs/ssh-sftp-port-mapping.md)**：利用上游已有的端口映射功能，让本机 OpenSSH 和 WinSCP 连接无公网 IP 的 Linux 主机。教程包含网络原理、映射规则、SSH 别名、SFTP 设置和实测范围；SSH 登录、WinSCP 上传/下载及哈希校验已通过当前网络中的 UU 映射验证。
+
+| 访问方式 | 适合的操作 | 文档 |
+|---|---|---|
+| UU 内置工具 | 在 UU 中使用终端、文件传输 | [Windows 文件下载兼容修复](docs/windows-download-compatibility.md) |
+| UU 端口映射 + SSH / SFTP | 在本机命令行登录、用 WinSCP 管理文件 | [配置与验证指南](docs/ssh-sftp-port-mapping.md) |
+
+两种方式可以并存。端口映射方案使用 SSH/SFTP 协议；本次贡献为部署和验证文档，无需新增端口映射代码。
+
 以下保留原项目介绍与使用文档。
 
 > **原作者的话**
@@ -321,6 +330,8 @@ install -Dm644 contrib/desktop/uu-remote-linux-viewer.desktop ~/.local/share/app
 **无头模式**：只要终端、文件传输和端口映射，不需要图形界面。在服务里加 `Environment=UU_DESKTOP_BACKEND=none`，
 把 `[Install]` 改成 `WantedBy=default.target`（无人登录时 `graphical-session.target` 不会启动），再执行 `loginctl enable-linger $USER`，这样开机后不用登录，systemd 用户服务（以及 `XDG_RUNTIME_DIR`、用户 D-Bus）也会自动启动。
 无头模式下控制端点「远程桌面」会一直显示正在连接，这是正常的。首次登录用 `uuremote-server login --no-gui` 在终端里扫码。
+
+**Windows SSH / WinSCP**：通过 UU 把本机 `127.0.0.1:2222` 转发到 Linux 的 `127.0.0.1:22`，即可使用本机 SSH 和 SFTP；现有 UU 工具继续保留。详见 [端口映射配置与实测指南](docs/ssh-sftp-port-mapping.md)。
 
 **群晖 / NAS（Docker）**：没有桌面的 NAS 可以用容器运行无头模式（文件传输、终端、端口映射）。
 镜像 [`ghcr.io/vallierdev/uu-remote-linux`](https://github.com/VallierDev/uu-remote-linux/pkgs/container/uu-remote-linux)，

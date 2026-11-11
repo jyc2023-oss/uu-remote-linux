@@ -10,6 +10,15 @@ This fork adds **download compatibility between the official Windows viewer and 
 
 The fix is included in this repository's `main`. Upstream v0.2.57 prebuilt binaries do not include it; build from this fork's source. See [evidence, validation scope and build instructions](docs/windows-download-compatibility.md#english).
 
+This fork also adds a **[UU port mapping + SSH / WinSCP guide](docs/ssh-sftp-port-mapping.md#english)** using upstream's existing forwarding capability. It covers network architecture, mapping rules, SSH aliases, SFTP setup and acceptance limits for reaching a Linux host without its own public IP. SSH login and WinSCP upload/download with hash verification passed through UU on the current network.
+
+| Access method | Use | Documentation |
+|---|---|---|
+| Built-in UU tools | Terminal and file transfer inside UU | [Windows download compatibility fix](docs/windows-download-compatibility.md#english) |
+| UU port mapping + SSH / SFTP | Local command-line login and WinSCP file management | [Setup and acceptance guide](docs/ssh-sftp-port-mapping.md#english) |
+
+Both methods can coexist. The mapping path uses SSH/SFTP; this contribution documents deployment and validation without adding new mapping code.
+
 The original project introduction and documentation follow.
 
 > **From the original author**
@@ -356,6 +365,8 @@ the same account cannot assist each other, an official restriction).
 service, change `[Install]` to `WantedBy=default.target` (`graphical-session.target` never starts without a login), and run `loginctl enable-linger $USER`, so the systemd user manager (with `XDG_RUNTIME_DIR` and the user D-Bus)
 starts at boot without a login. The viewer's remote desktop keeps showing "connecting" in this mode; that is expected.
 Log in once with `uuremote-server login --no-gui` (QR in the terminal).
+
+**Windows SSH / WinSCP**: map the Windows-local `127.0.0.1:2222` to the Linux-local `127.0.0.1:22` through UU to use local SSH and SFTP while retaining the built-in UU tools. See the [port-mapping setup and acceptance guide](docs/ssh-sftp-port-mapping.md#english).
 
 **Synology / NAS (Docker)**: run headless mode in a container on a desktop-less NAS (file transfer, terminal, port
 mapping): image [`ghcr.io/vallierdev/uu-remote-linux`](https://github.com/VallierDev/uu-remote-linux/pkgs/container/uu-remote-linux),
