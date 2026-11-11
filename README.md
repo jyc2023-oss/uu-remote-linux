@@ -2,7 +2,17 @@
 
 **简体中文** | [English](README.en.md)
 
-> **写在前面**
+## 本 fork 的贡献
+
+本仓库由 [jyc2023-oss](https://github.com/jyc2023-oss) 维护，派生自 [VallierDev/uu-remote-linux](https://github.com/VallierDev/uu-remote-linux)，保留原作者及贡献者的历史和 [GPL-3.0 许可证](LICENSE)。
+
+我们增加了 **Windows 官方客户端从 Linux 被控端下载文件的兼容修复**：修正路径分隔符、任务请求编号和文件块发送顺序，并加入回归测试。2026-11-11，Windows 4.46.0.4716 从 Ubuntu 24.04 ARM64 下载文本和 1 MiB 二进制文件成功，SHA-256 与源文件一致；自动测试 365 通过、0 失败、11 跳过。
+
+修复已包含在本仓库 `main`。上游 v0.2.57 预编译包不包含此补丁；请从本仓库源码构建。详见 [修复依据、验证范围与构建方法](docs/windows-download-compatibility.md)。
+
+以下保留原项目介绍与使用文档。
+
+> **原作者的话**
 >
 > 网易 UU 远程非常好用，但官网一直没有 Linux 版本。于是我借助 Claude 和 Codex，写了这个开源的 Linux 被控端：
 > 装上之后，就能用官方的 Mac / Windows / 手机客户端远程控制你的 Linux 电脑。

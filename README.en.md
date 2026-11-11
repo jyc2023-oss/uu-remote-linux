@@ -2,7 +2,17 @@
 
 [简体中文](README.md) | **English**
 
-> **A note first**
+## Contributions in this fork
+
+Maintained by [jyc2023-oss](https://github.com/jyc2023-oss), this is a fork of [VallierDev/uu-remote-linux](https://github.com/VallierDev/uu-remote-linux). It retains the original author and contributors' history and the [GPL-3.0 license](LICENSE).
+
+This fork adds **download compatibility between the official Windows viewer and the Linux host**: Windows path separators, task request IDs and ordered file-block transmission, with regression tests. On 2026-11-11, Windows 4.46.0.4716 successfully downloaded text and 1 MiB binary files from Ubuntu 24.04 ARM64 with matching source/download SHA-256 digests. Automated tests: 365 passed, 0 failed, 11 ignored.
+
+The fix is included in this repository's `main`. Upstream v0.2.57 prebuilt binaries do not include it; build from this fork's source. See [evidence, validation scope and build instructions](docs/windows-download-compatibility.md#english).
+
+The original project introduction and documentation follow.
+
+> **From the original author**
 >
 > NetEase UU Remote (网易 UU 远程) is a great remote-desktop tool, but there is no Linux version on its
 > official website. So, with the help of Claude and Codex, I wrote this open-source Linux host: install it,
