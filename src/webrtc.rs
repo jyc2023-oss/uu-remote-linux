@@ -117,6 +117,7 @@ pub struct WebRtcSession {
     pub controller: crate::input::Controller,
     pub context: Arc<Mutex<SessionContext>>,
     actions: Arc<crate::system_actions::PeerActions>,
+    files: Arc<crate::file_trans::FileSession>,
 }
 
 /// Counts a desktop session once it is connected (a failed offer is not a session), while the
@@ -496,6 +497,7 @@ impl WebRtcSession {
         let file_channel: Arc<std::sync::Mutex<Option<Arc<RTCDataChannel>>>> = Arc::new(std::sync::Mutex::new(None));
         let (file_tx, mut file_rx) = tokio::sync::mpsc::unbounded_channel::<Vec<u8>>();
         let peer_files = crate::file_trans::FileSession::new(file_tx, control_sequence.clone());
+        let files = peer_files.clone();
         // Mac 4.43: streamerDidReceiveTextData (0x1001f56b4, arm64) reaches
         // the metrics/RPC dispatcher at 0x1003a8560; CONTROL does not.
         // Keep CONTROL metrics for other viewers; privacy replies use TEXT.
@@ -1628,7 +1630,13 @@ impl WebRtcSession {
             controller: crate::input::Controller::Other,
             context,
             actions: session_actions,
+            files,
         })
+    }
+
+    pub fn set_controller(&mut self, controller: crate::input::Controller) {
+        self.controller = controller;
+        self.files.set_windows_peer(controller == crate::input::Controller::Windows);
     }
 
     /// Route for capture_desktop on this tool peer; the caller decides whether it may become the desktop.
